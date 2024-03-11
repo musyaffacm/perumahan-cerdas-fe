@@ -10,31 +10,36 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   return (
-    <div className="flex gap-x-5">
-      {MENU.map((item, index) => (
-        <Card
-          sx={{ maxWidth: 345 }}
-          key={index}
-          onClick={() => navigate(item.url)}
-        >
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              height="40"
-              image={item.image}
-              alt="green iguana"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {item.label}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {item.desc}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      ))}
+    <div className="space-y-8">
+      <div className="w-full text-center text-gray-950 font-bold text-5xl">
+        Perumahan Cerdas
+      </div>
+      <div className="flex gap-x-5">
+        {MENU.map((item, index) => (
+          <Card
+            sx={{ maxWidth: 345 }}
+            key={index}
+            onClick={() => navigate(item.url)}
+          >
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="40"
+                image={item.image}
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {item.label}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {item.desc}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };
