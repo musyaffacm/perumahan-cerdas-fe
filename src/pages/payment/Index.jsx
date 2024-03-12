@@ -7,6 +7,7 @@ import PaymentTable from "./components/PaymentTable";
 import MonthSelect from "./components/MonthSelect";
 import CustomModal from "../../composnents/CustomModal";
 import PaymentForm from "./components/PaymentForm";
+import TransactionGraphic from "./components/TransactionGraphic";
 
 export default function Payment() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export default function Payment() {
       <div className="w-full text-center text-gray-950 font-bold text-5xl">
         Pembayaran
       </div>
+      <TransactionGraphic />
       <div className="w-full">
         <div className="w-full flex justify-between mb-5">
           <Button
