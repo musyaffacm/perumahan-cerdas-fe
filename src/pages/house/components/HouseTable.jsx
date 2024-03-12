@@ -52,9 +52,18 @@ const SAMPLE_DATA = [
   createData(6, "John Doe", "Permanent"),
 ];
 
-const HouseTable = () => {
+const mappingData = (data) => {
+  return data.map((item) => ({
+    id: item.id,
+    residentName: item?.is_inhabit?.resident?.fullname || "-",
+    inhabitStatus: item?.is_inhabit?.resident?.status || "-",
+  }));
+};
+
+const HouseTable = ({ data }) => {
   const [isEdit, setIsEdit] = useState(null);
   const [isOpenHistory, setIsOpenHistory] = useState(false);
+  const mappedData = mappingData(data);
   return (
     <>
       <TableContainer component={Paper}>
@@ -68,7 +77,7 @@ const HouseTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {SAMPLE_DATA.map((item, index) => (
+            {mappedData.map((item, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell align="center" component="th" scope="row">
                   {"RC-" + String(item.id).padStart(4, "0")}
