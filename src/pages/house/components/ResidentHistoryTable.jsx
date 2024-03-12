@@ -7,11 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { MdModeEdit } from "react-icons/md";
-import { Button } from "@mui/material";
-import CustomModal from "../../../composnents/CustomModal";
-import { useState } from "react";
-import HouseForm from "./HouseForm";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {

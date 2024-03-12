@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import PaymentTable from "./components/PaymentTable";
 import MonthSelect from "./components/MonthSelect";
-import CustomModal from "../../composnents/CustomModal";
+import CustomModal from "../../components/CustomModal";
 import PaymentForm from "./components/PaymentForm";
 import TransactionGraphic from "./components/TransactionGraphic";
 

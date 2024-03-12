@@ -1,10 +1,9 @@
 import { Button } from "@mui/material";
-import CustomTable from "../../composnents/CustomTable";
+import CustomTable from "../../components/CustomTable";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import AddResidentModal from "./components/HouseForm";
 import HouseTable from "./components/HouseTable";
 
 export default function House() {

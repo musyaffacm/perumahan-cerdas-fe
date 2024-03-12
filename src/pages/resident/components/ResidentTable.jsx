@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import { MdModeEdit } from "react-icons/md";
 import { Button } from "@mui/material";
 import { IoIosEye } from "react-icons/io";
-import CustomModal from "../../../composnents/CustomModal";
+import CustomModal from "../../../components/CustomModal";
 import { useState } from "react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
