@@ -9,10 +9,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { MdModeEdit } from "react-icons/md";
 import { Button, imageListItemBarClasses } from "@mui/material";
-import { IoIosEye } from "react-icons/io";
+import { IoMdEye } from "react-icons/io";
 import CustomModal from "../../../composnents/CustomModal";
 import { useState } from "react";
 import HouseForm from "./HouseForm";
+import ResidentHistoryTable from "./ResidentHistoryTable";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -53,6 +54,7 @@ const SAMPLE_DATA = [
 
 const HouseTable = () => {
   const [isEdit, setIsEdit] = useState(null);
+  const [isOpenHistory, setIsOpenHistory] = useState(false);
   return (
     <>
       <TableContainer component={Paper}>
@@ -78,15 +80,26 @@ const HouseTable = () => {
                   {item.inhabitStatus}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <Button
-                    variant="contained"
-                    color="warning"
-                    size="large"
-                    onClick={() => setIsEdit(true)}
-                    startIcon={<MdModeEdit />}
-                  >
-                    Edit
-                  </Button>
+                  <div className="space-x-3">
+                    <Button
+                      variant="contained"
+                      color="warning"
+                      size="large"
+                      onClick={() => setIsEdit(true)}
+                      startIcon={<MdModeEdit />}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      onClick={() => setIsOpenHistory(true)}
+                      startIcon={<IoMdEye />}
+                    >
+                      Riwayat Penghuni
+                    </Button>
+                  </div>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
@@ -95,6 +108,9 @@ const HouseTable = () => {
       </TableContainer>
       <CustomModal open={isEdit} onClose={() => setIsEdit(false)}>
         <HouseForm onCancel={() => setIsEdit(false)} />
+      </CustomModal>
+      <CustomModal open={isOpenHistory} onClose={() => setIsOpenHistory(false)}>
+        <ResidentHistoryTable />
       </CustomModal>
     </>
   );
