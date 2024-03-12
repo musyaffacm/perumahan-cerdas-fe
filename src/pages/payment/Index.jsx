@@ -36,7 +36,7 @@ export default function Payment() {
               startIcon={<IoMdAdd />}
               onClick={() => setIsOpenModal((prev) => true)}
             >
-              Tambah Rumah
+              Tambah Pembayaran
             </Button>
           </div>
         </div>
