@@ -12,6 +12,7 @@ import { Button } from "@mui/material";
 import { IoIosEye } from "react-icons/io";
 import CustomModal from "../../../components/CustomModal";
 import { useState } from "react";
+import { BASE_BE_URL } from "../../../constant/global";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -43,59 +44,21 @@ function createData(
   return { name, residentStatus, phoneNumber, marriedStatus, identityPhoto };
 }
 
-const SAMPLE_DATA = [
-  createData(
-    "John Doe",
-    "Permanent",
-    "085123456789",
-    "Sudah Menikah",
-    "/images/contoh.png",
-    "1"
-  ),
-  createData(
-    "John Doe",
-    "Permanent",
-    "085123456789",
-    "Sudah Menikah",
-    "/images/contoh.png",
-    "1"
-  ),
-  createData(
-    "John Doe",
-    "Permanent",
-    "085123456789",
-    "Sudah Menikah",
-    "/images/contoh.png",
-    "1"
-  ),
-  createData(
-    "John Doe",
-    "Permanent",
-    "085123456789",
-    "Sudah Menikah",
-    "/images/contoh.png",
-    "1"
-  ),
-  createData(
-    "John Doe",
-    "Permanent",
-    "085123456789",
-    "Sudah Menikah",
-    "/images/contoh.png",
-    "1"
-  ),
-  createData(
-    "John Doe",
-    "Permanent",
-    "085123456789",
-    "Sudah Menikah",
-    "/images/contoh.png",
-    "1"
-  ),
-];
+const mappingData = (data) => {
+  return data.map((item) => ({
+    id: item.id,
+    name: item.fullname,
+    residentStatus: item.status,
+    phoneNumber: item.phone_number,
+    marriedStatus: item.is_married ? "Sudah Menikah" : "Belum Menikah",
+    identityPhoto: item.identity_photo_path,
+  }));
+};
 
-const ResidentTable = () => {
+const ResidentTable = ({ data, onClickEdit = () => {} }) => {
   const [imgSrc, setImgSrc] = useState(null);
+  const mappedData = mappingData(data);
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -111,7 +74,7 @@ const ResidentTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {SAMPLE_DATA.map((item, index) => (
+            {mappedData.map((item, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell align="center" component="th" scope="row">
                   {item.name}
@@ -130,16 +93,15 @@ const ResidentTable = () => {
                     variant="contained"
                     size="large"
                     onClick={() => setImgSrc(item.identityPhoto)}
-                  >
-                    <IoIosEye />
-                  </Button>
+                    startIcon={<IoIosEye className="text-3l" />}
+                  />
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <Button
                     variant="contained"
                     color="warning"
                     size="large"
-                    onClick={() => {}}
+                    onClick={() => onClickEdit(item.id)}
                     startIcon={<MdModeEdit />}
                   >
                     Edit
@@ -151,7 +113,7 @@ const ResidentTable = () => {
         </Table>
       </TableContainer>
       <CustomModal open={imgSrc !== null} onClose={() => setImgSrc(null)}>
-        <img src={imgSrc} />
+        <img src={BASE_BE_URL + "/" + imgSrc} />
       </CustomModal>
     </>
   );

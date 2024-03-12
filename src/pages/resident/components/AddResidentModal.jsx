@@ -9,6 +9,7 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
+import { useState } from "react";
 
 const style = {
   position: "absolute",
@@ -23,7 +24,20 @@ const style = {
 };
 
 const AddResidentModal = (props) => {
-  const { open = false, onClose = () => {}, onSubmit = () => {} } = props;
+  const {
+    loading = false,
+    open = false,
+    onClose = () => {},
+    onSubmit = () => {},
+  } = props;
+  const [state, setState] = useState({
+    fullname: "",
+    phoneNumber: "",
+    inhabitStatus: null,
+    isMaried: false,
+    identityPhoto: null,
+  });
+
   return (
     <Modal
       open={open}
@@ -39,13 +53,25 @@ const AddResidentModal = (props) => {
           <FormLabel className="text-gray-950" htmlFor="fullname">
             Nama Lengkap
           </FormLabel>
-          <TextField id="fullname" variant="outlined" />
+          <TextField
+            id="fullname"
+            variant="outlined"
+            onChange={(e) =>
+              setState((prev) => ({ ...prev, fullname: e.target.value }))
+            }
+          />
         </FormControl>
         <FormControl>
           <FormLabel className="text-gray-950" htmlFor="phone_number">
             Nomor Handpone
           </FormLabel>
-          <TextField id="phone_number" variant="outlined" />
+          <TextField
+            id="phone_number"
+            variant="outlined"
+            onChange={(e) =>
+              setState((prev) => ({ ...prev, phoneNumber: e.target.value }))
+            }
+          />
         </FormControl>
 
         <FormControl>
@@ -54,8 +80,11 @@ const AddResidentModal = (props) => {
           </FormLabel>
           <RadioGroup
             aria-labelledby="resident_status"
-            defaultValue="permanent"
             name="radio-buttons-group"
+            value={state.inhabitStatus}
+            onChange={(e) =>
+              setState((prev) => ({ ...prev, inhabitStatus: e.target.value }))
+            }
           >
             <FormControlLabel
               value="permanent"
@@ -63,7 +92,7 @@ const AddResidentModal = (props) => {
               label="Permanent"
             />
             <FormControlLabel
-              value="kontrak"
+              value="temporary"
               control={<Radio />}
               label="Kontrak"
             />
@@ -75,16 +104,19 @@ const AddResidentModal = (props) => {
           </FormLabel>
           <RadioGroup
             aria-labelledby="is_married"
-            defaultValue="permanent"
             name="radio-buttons-group"
+            value={state.isMarried}
+            onChange={(e) =>
+              setState((prev) => ({ ...prev, isMarried: e.target.value }))
+            }
           >
             <FormControlLabel
-              value={false}
+              value={0}
               control={<Radio />}
               label="Belum Menikah"
             />
             <FormControlLabel
-              value={true}
+              value={1}
               control={<Radio />}
               label="Sudah Menikah"
             />
@@ -97,6 +129,12 @@ const AddResidentModal = (props) => {
             name="identity_photo"
             id="identity_photo"
             className="border border-slate-600 py-2 px-5 rounded"
+            onChange={(e) =>
+              setState((prev) => ({
+                ...prev,
+                identityPhoto: e.target.files[0],
+              }))
+            }
           />
         </FormControl>
 
@@ -104,8 +142,13 @@ const AddResidentModal = (props) => {
           <Button variant="contained" size="large" onClick={onClose}>
             Batal
           </Button>
-          <Button variant="contained" size="large" onClick={onSubmit}>
-            Simpan
+          <Button
+            variant="contained"
+            size="large"
+            disabled={loading}
+            onClick={() => onSubmit(state)}
+          >
+            {loading ? "Loading" : "Simpan"}
           </Button>
         </div>
       </Box>
