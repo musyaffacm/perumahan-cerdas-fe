@@ -7,6 +7,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { STATIC_MONTH } from "../../../constant/global";
 
 const SAMPLE_DATA = [
   {
@@ -46,12 +47,38 @@ const SAMPLE_DATA = [
   },
 ];
 
-const TransactionGraphic = () => {
+const mappingData = (data) => {
+  return STATIC_MONTH.map((month) => {
+    const incomeTotal = data.paymentIn
+      .filter((transc) => transc.month === month.id)
+      .reduce(
+        (accumulator, current) =>
+          accumulator + current.count * current.payment.fee,
+        0
+      );
+
+    const outcomeTotal = data.paymentOut
+      .filter((transc) => transc.month === month.id)
+      .reduce(
+        (accumulator, current) =>
+          accumulator + current.count * current.payment.fee,
+        0
+      );
+    return {
+      name: month.label,
+      income: incomeTotal,
+      outcome: outcomeTotal,
+    };
+  });
+};
+
+const TransactionGraphic = ({ data }) => {
+  const mappedData = mappingData(data);
   return (
     <LineChart
       width={1000}
       height={500}
-      data={SAMPLE_DATA}
+      data={mappedData}
       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
     >
       <CartesianGrid strokeDasharray="3 3" />

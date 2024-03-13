@@ -26,17 +26,23 @@ export default function Payment() {
     error: transactionError,
   } = useFetch(`${API_URL}/payment/transaction/stat-data/${month.id}/2024`);
 
-  if (transactionLoading) {
+  const {
+    data: yearlyTransc,
+    loading: yearlyTranscLoading,
+    error: yearlyTranscError,
+  } = useFetch(`${API_URL}/payment/transaction/stat-data`);
+
+  if (transactionLoading || yearlyTranscLoading) {
     return <LoadingSpinner />;
   }
 
-  if (transaction?.data) {
+  if (transaction?.data && yearlyTransc) {
     return (
       <div className="space-y-8">
         <div className="w-full text-center text-gray-950 font-bold text-5xl">
           Pembayaran
         </div>
-        <TransactionGraphic />
+        <TransactionGraphic data={yearlyTransc} />
         <div className="w-full">
           <div className="w-full flex justify-between mb-5">
             <Button
