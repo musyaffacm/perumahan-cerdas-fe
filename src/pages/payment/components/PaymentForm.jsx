@@ -8,32 +8,18 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-const createResidentData = (id, fullname) => {
-  return { id, fullname };
-};
-
-const createInhabitData = (id, label) => {
-  return { id, label };
-};
-
-const SAMPLE_DATA_RESIDENT = [
-  createResidentData(1, "John Doe 1"),
-  createResidentData(2, "John Doe 2"),
-  createResidentData(3, "John Doe 3"),
-  createResidentData(4, "John Doe 4"),
-  createResidentData(5, "John Doe 5"),
-];
-
-const SAMPLE_DATA_PAYMENT_TYPE = [
-  createInhabitData(1, "Satpam"),
-  createInhabitData(2, "Kebersihan"),
-];
-
 const PaymentForm = (props) => {
-  const { onCancel = () => {}, onSubmit = () => {} } = props;
-  const [resident, setResident] = useState(null);
-  const [paymentType, setPaymentType] = useState(null);
-  const [nominal, setNominal] = useState(0);
+  const {
+    paymentTypeData = null,
+    residentData = null,
+    onCancel = () => {},
+    onSubmit = () => {},
+  } = props;
+  const [state, setState] = useState({
+    resident: null,
+    paymentType: null,
+    nominal: null,
+  });
   return (
     <>
       <div className="text-xl font-semibold text-gray-800 mb-10 text-center">
@@ -45,11 +31,13 @@ const PaymentForm = (props) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={resident}
+          value={state.resident}
           label="Pilih penghuni"
-          onChange={(e) => setResident(e.target.value)}
+          onChange={(e) =>
+            setState((prev) => ({ ...prev, resident: e.target.value }))
+          }
         >
-          {SAMPLE_DATA_RESIDENT.map((item) => (
+          {residentData.map((item) => (
             <MenuItem value={item}> {item.fullname} </MenuItem>
           ))}
         </Select>
@@ -59,18 +47,20 @@ const PaymentForm = (props) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={paymentType}
+          value={state.paymentType}
           label="Pilih jenis pembayaran"
-          onChange={(e) => setPaymentType(e.target.value)}
+          onChange={(e) =>
+            setState((prev) => ({ ...prev, paymentType: e.target.value }))
+          }
         >
-          {SAMPLE_DATA_PAYMENT_TYPE.map((item) => (
+          {paymentTypeData.map((item) => (
             <MenuItem value={item}> {item.label} </MenuItem>
           ))}
         </Select>
       </FormControl>
 
       <TextField
-        value={nominal}
+        value={state.nominal}
         type="number"
         onKeyDown={(e) => {
           if (
@@ -82,16 +72,20 @@ const PaymentForm = (props) => {
             e.preventDefault();
           }
         }}
-        onChange={(e) => {
-          setNominal(e.target.value);
-        }}
+        onChange={(e) =>
+          setState((prev) => ({ ...prev, nominal: e.target.value }))
+        }
       />
 
       <div className="mt-5 flex justify-end gap-x-5">
         <Button variant="contained" size="large" onClick={onCancel}>
           Batal
         </Button>
-        <Button variant="contained" size="large" onClick={onSubmit}>
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => onSubmit(state)}
+        >
           Simpan
         </Button>
       </div>
