@@ -53,13 +53,19 @@ const SAMPLE_DATA = [
 const mappingData = (data) => {
   return data.map((item) => ({
     id: item.id,
+    residentId: item?.is_inhabit?.resident?.id,
     residentName: item?.is_inhabit?.resident?.fullname || "-",
     inhabitStatus: item?.is_inhabit?.resident?.status || "-",
   }));
 };
 
 const HouseTable = (props) => {
-  const { data, onClickEdit = () => {}, onClickHistory = () => {} } = props;
+  const {
+    data,
+    onClickEdit = () => {},
+    onClickHistory = () => {},
+    onClickPaymentHistory = () => {},
+  } = props;
   const [isEdit, setIsEdit] = useState(null);
   const [isOpenHistory, setIsOpenHistory] = useState(false);
   const mappedData = mappingData(data);
@@ -106,6 +112,15 @@ const HouseTable = (props) => {
                       startIcon={<IoMdEye />}
                     >
                       Riwayat Penghuni
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      onClick={() => onClickPaymentHistory(item.residentId)}
+                      startIcon={<IoMdEye />}
+                    >
+                      Riwayat Pembayaran
                     </Button>
                   </div>
                 </StyledTableCell>

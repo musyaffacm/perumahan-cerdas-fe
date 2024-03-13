@@ -11,12 +11,14 @@ import { addHouse, updateHouseResident } from "../../lib/house";
 import CustomModal from "../../components/CustomModal";
 import HouseForm from "./components/HouseForm";
 import ResidentHistoryTable from "./components/ResidentHistoryTable";
+import PaymentHistory from "./components/PaymentHistoryTable";
 
 export default function House() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [idEdit, setIdEdit] = useState(null);
   const [idHistory, setIdHistory] = useState(null);
+  const [idPaymentHistory, setIdPaymentHistory] = useState(null);
 
   const {
     data: houseData,
@@ -34,6 +36,12 @@ export default function House() {
   const { data: residentHistory } = useFetch(
     API_URL + `/house/resident/history?house=` + idHistory
   );
+
+  const {
+    data: paymentHistory,
+    loading: paymentHistoryLoading,
+    error: paymentHistoryError,
+  } = useFetch(`${API_URL}/house/payment-history/${idPaymentHistory}`);
 
   const handleCreate = async (state) => {
     setLoading(true);
@@ -92,6 +100,9 @@ export default function House() {
             data={houseData?.data}
             onClickEdit={(houseId) => setIdEdit(houseId)}
             onClickHistory={(houseId) => setIdHistory(houseId)}
+            onClickPaymentHistory={(residentId) =>
+              setIdPaymentHistory(residentId)
+            }
           />
         </div>
         <CustomModal open={idEdit !== null} onClose={() => setIdEdit(null)}>
@@ -108,6 +119,20 @@ export default function House() {
             onClose={() => setIdHistory(null)}
           >
             <ResidentHistoryTable residentHistory={residentHistory?.data} />
+          </CustomModal>
+        )}
+
+        {paymentHistory?.data && (
+          <CustomModal
+            open={idPaymentHistory !== null}
+            onClose={() => setIdPaymentHistory(null)}
+          >
+            <PaymentHistory
+              onCancel={() => setIdPaymentHistory(null)}
+              data={paymentHistory?.data}
+              onSubmit={(state) => handleUpdate(state)}
+              loading={loading}
+            />
           </CustomModal>
         )}
       </div>
