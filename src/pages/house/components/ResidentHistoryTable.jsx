@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { formatHouseId } from "../../../lib/helper";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -45,7 +46,16 @@ const SAMPLE_DATA = [
   createData(6, "John Doe", "Permanent"),
 ];
 
-const ResidentHistoryTable = () => {
+const mappingData = (data) => {
+  return data.map((item) => ({
+    id: item.id,
+    residentName: item?.resident?.fullname || "-",
+    inhabitStatus: item?.inhabit_status || "-",
+  }));
+};
+
+const ResidentHistoryTable = ({ residentHistory }) => {
+  const mappedData = mappingData(residentHistory);
   return (
     <>
       <TableContainer component={Paper}>
@@ -58,10 +68,10 @@ const ResidentHistoryTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {SAMPLE_DATA.map((item, index) => (
+            {mappedData.map((item, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell align="center" component="th" scope="row">
-                  {"RC-" + String(item.id).padStart(4, "0")}
+                  {formatHouseId(item.id)}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {item.residentName}

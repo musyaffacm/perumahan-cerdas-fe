@@ -10,11 +10,13 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { addHouse, updateHouseResident } from "../../lib/house";
 import CustomModal from "../../components/CustomModal";
 import HouseForm from "./components/HouseForm";
+import ResidentHistoryTable from "./components/ResidentHistoryTable";
 
 export default function House() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [idEdit, setIdEdit] = useState(null);
+  const [idHistory, setIdHistory] = useState(null);
 
   const {
     data: houseData,
@@ -28,6 +30,10 @@ export default function House() {
     loading: residentLoading,
     error: residentError,
   } = useFetch(`${API_URL}/resident`);
+
+  const { data: residentHistory } = useFetch(
+    API_URL + `/house/resident/history?house=` + idHistory
+  );
 
   const handleCreate = async (state) => {
     setLoading(true);
@@ -85,6 +91,7 @@ export default function House() {
           <HouseTable
             data={houseData?.data}
             onClickEdit={(houseId) => setIdEdit(houseId)}
+            onClickHistory={(houseId) => setIdHistory(houseId)}
           />
         </div>
         <CustomModal open={idEdit !== null} onClose={() => setIdEdit(null)}>
@@ -95,6 +102,14 @@ export default function House() {
             loading={loading}
           />
         </CustomModal>
+        {residentHistory?.data && (
+          <CustomModal
+            open={idHistory !== null}
+            onClose={() => setIdHistory(null)}
+          >
+            <ResidentHistoryTable residentHistory={residentHistory?.data} />
+          </CustomModal>
+        )}
       </div>
     );
   }

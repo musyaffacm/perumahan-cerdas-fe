@@ -23,3 +23,7 @@ export const httpErrorHandler = (error, toArray = false) => {
 
   return toArray ? errorsMessageArray : errorsMessage;
 };
+
+export const formatHouseId = (houseId) => {
+  return "RC-" + String(houseId).padStart(4, "0");
+};

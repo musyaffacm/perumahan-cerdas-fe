@@ -10,9 +10,8 @@ import Paper from "@mui/material/Paper";
 import { MdModeEdit } from "react-icons/md";
 import { Button } from "@mui/material";
 import { IoMdEye } from "react-icons/io";
-import CustomModal from "../../../components/CustomModal";
 import { useState } from "react";
-import ResidentHistoryTable from "./ResidentHistoryTable";
+import { formatHouseId } from "../../../lib/helper";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -59,7 +58,8 @@ const mappingData = (data) => {
   }));
 };
 
-const HouseTable = ({ data, onClickEdit = () => {} }) => {
+const HouseTable = (props) => {
+  const { data, onClickEdit = () => {}, onClickHistory = () => {} } = props;
   const [isEdit, setIsEdit] = useState(null);
   const [isOpenHistory, setIsOpenHistory] = useState(false);
   const mappedData = mappingData(data);
@@ -79,7 +79,7 @@ const HouseTable = ({ data, onClickEdit = () => {} }) => {
             {mappedData.map((item, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell align="center" component="th" scope="row">
-                  {"RC-" + String(item.id).padStart(4, "0")}
+                  {formatHouseId(item.id)}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {item.residentName}
@@ -102,7 +102,7 @@ const HouseTable = ({ data, onClickEdit = () => {} }) => {
                       variant="contained"
                       color="primary"
                       size="large"
-                      onClick={() => setIsOpenHistory(true)}
+                      onClick={() => onClickHistory(item.id)}
                       startIcon={<IoMdEye />}
                     >
                       Riwayat Penghuni
@@ -114,9 +114,6 @@ const HouseTable = ({ data, onClickEdit = () => {} }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <CustomModal open={isOpenHistory} onClose={() => setIsOpenHistory(false)}>
-        <ResidentHistoryTable />
-      </CustomModal>
     </>
   );
 };
