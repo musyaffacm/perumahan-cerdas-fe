@@ -94,7 +94,7 @@ export default function Payment() {
     paymentType?.data
   ) {
     return (
-      <div className="space-y-8">
+      <div className="space-y-16">
         <div className="w-full flex justify-between">
           <Button
             variant="contained"
@@ -128,7 +128,7 @@ export default function Payment() {
               </Button>
             </div>
           </div>
-          <div className="space-y-8">
+          <div className="space-y-5">
             <PaymentInTable data={transaction?.data?.paymentIn} />
             <PaymentOutTable data={transaction?.data?.paymentOut} />
           </div>
