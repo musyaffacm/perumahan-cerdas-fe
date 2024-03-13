@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-const PaymentForm = (props) => {
+const TranscForm = (props) => {
   const {
     paymentTypeData = null,
     residentData = null,
@@ -93,4 +93,4 @@ const PaymentForm = (props) => {
   );
 };
 
-export default PaymentForm;
+export default TranscForm;
