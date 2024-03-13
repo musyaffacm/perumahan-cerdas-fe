@@ -12,6 +12,7 @@ import CustomModal from "../../components/CustomModal";
 import HouseForm from "./components/HouseForm";
 import ResidentHistoryTable from "./components/ResidentHistoryTable";
 import PaymentHistory from "./components/PaymentHistoryTable";
+import PaymentStatus from "./components/PaymentStatus";
 
 export default function House() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export default function House() {
   const [idEdit, setIdEdit] = useState(null);
   const [idHistory, setIdHistory] = useState(null);
   const [idPaymentHistory, setIdPaymentHistory] = useState(null);
+  const [idPaymentStatus, setIdPaymentStatus] = useState(null);
 
   const {
     data: houseData,
@@ -42,6 +44,12 @@ export default function House() {
     loading: paymentHistoryLoading,
     error: paymentHistoryError,
   } = useFetch(`${API_URL}/house/payment-history/${idPaymentHistory}`);
+
+  const {
+    data: paymentStatus,
+    loading: paymentStatusLoading,
+    error: paymentStatusError,
+  } = useFetch(`${API_URL}/house/payment-status/${idPaymentStatus}`);
 
   const handleCreate = async (state) => {
     setLoading(true);
@@ -103,6 +111,9 @@ export default function House() {
             onClickPaymentHistory={(residentId) =>
               setIdPaymentHistory(residentId)
             }
+            onClickPaymentStatus={(residentId) =>
+              setIdPaymentStatus(residentId)
+            }
           />
         </div>
         <CustomModal open={idEdit !== null} onClose={() => setIdEdit(null)}>
@@ -130,8 +141,18 @@ export default function House() {
             <PaymentHistory
               onCancel={() => setIdPaymentHistory(null)}
               data={paymentHistory?.data}
-              onSubmit={(state) => handleUpdate(state)}
-              loading={loading}
+            />
+          </CustomModal>
+        )}
+
+        {paymentStatus?.data && (
+          <CustomModal
+            open={idPaymentStatus !== null}
+            onClose={() => setIdPaymentStatus(null)}
+          >
+            <PaymentStatus
+              onCancel={() => setIdPaymentStatus(null)}
+              data={paymentStatus?.data}
             />
           </CustomModal>
         )}

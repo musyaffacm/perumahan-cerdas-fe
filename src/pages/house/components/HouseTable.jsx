@@ -55,7 +55,7 @@ const mappingData = (data) => {
     id: item.id,
     residentId: item?.is_inhabit?.resident?.id,
     residentName: item?.is_inhabit?.resident?.fullname || "-",
-    inhabitStatus: item?.is_inhabit?.resident?.status || "-",
+    inhabitStatus: item?.is_inhabit ? "Dihuni" : "Tidak Dihuni" || "-",
   }));
 };
 
@@ -65,6 +65,7 @@ const HouseTable = (props) => {
     onClickEdit = () => {},
     onClickHistory = () => {},
     onClickPaymentHistory = () => {},
+    onClickPaymentStatus = () => {},
   } = props;
   const [isEdit, setIsEdit] = useState(null);
   const [isOpenHistory, setIsOpenHistory] = useState(false);
@@ -72,7 +73,7 @@ const HouseTable = (props) => {
   return (
     <>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 1000 }} aria-label="customized table">
+        <Table sx={{ minWidth: 1300 }} aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell align="center"> Id </StyledTableCell>
@@ -121,6 +122,15 @@ const HouseTable = (props) => {
                       startIcon={<IoMdEye />}
                     >
                       Riwayat Pembayaran
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      onClick={() => onClickPaymentStatus(item.residentId)}
+                      startIcon={<IoMdEye />}
+                    >
+                      Iuran
                     </Button>
                   </div>
                 </StyledTableCell>
