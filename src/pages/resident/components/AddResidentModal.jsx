@@ -33,7 +33,6 @@ const AddResidentModal = (props) => {
   const [state, setState] = useState({
     fullname: "",
     phoneNumber: "",
-    inhabitStatus: null,
     isMaried: false,
     identityPhoto: null,
   });
@@ -72,31 +71,6 @@ const AddResidentModal = (props) => {
               setState((prev) => ({ ...prev, phoneNumber: e.target.value }))
             }
           />
-        </FormControl>
-
-        <FormControl>
-          <FormLabel className="text-gray-950" htmlFor="resident_status">
-            Status Huni
-          </FormLabel>
-          <RadioGroup
-            aria-labelledby="resident_status"
-            name="radio-buttons-group"
-            value={state.inhabitStatus}
-            onChange={(e) =>
-              setState((prev) => ({ ...prev, inhabitStatus: e.target.value }))
-            }
-          >
-            <FormControlLabel
-              value="permanent"
-              control={<Radio />}
-              label="Permanent"
-            />
-            <FormControlLabel
-              value="temporary"
-              control={<Radio />}
-              label="Kontrak"
-            />
-          </RadioGroup>
         </FormControl>
         <FormControl>
           <FormLabel className="text-gray-950" htmlFor="is_married">

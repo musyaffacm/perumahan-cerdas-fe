@@ -48,7 +48,7 @@ const mappingData = (data) => {
   return data.map((item) => ({
     id: item.id,
     name: item.fullname,
-    residentStatus: item.status,
+    residentStatus: item?.house_resident?.inhabit_status || "-",
     phoneNumber: item.phone_number,
     marriedStatus: item.is_married ? "Sudah Menikah" : "Belum Menikah",
     identityPhoto: item.identity_photo_path,

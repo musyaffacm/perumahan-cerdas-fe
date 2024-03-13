@@ -19,7 +19,6 @@ const ResidentForm = (props) => {
   const [state, setState] = useState({
     fullname: value?.fullname || "",
     phoneNumber: value?.phone_number || "",
-    inhabitStatus: value?.status || null,
     isMarried: value?.is_married ? 1 : 0,
     identityPhoto: null,
   });
@@ -61,31 +60,6 @@ const ResidentForm = (props) => {
             setState((prev) => ({ ...prev, phoneNumber: e.target.value }))
           }
         />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel className="text-gray-950" htmlFor="resident_status">
-          Status Huni
-        </FormLabel>
-        <RadioGroup
-          aria-labelledby="resident_status"
-          name="radio-buttons-group"
-          value={state.inhabitStatus}
-          onChange={(e) =>
-            setState((prev) => ({ ...prev, inhabitStatus: e.target.value }))
-          }
-        >
-          <FormControlLabel
-            value="permanent"
-            control={<Radio />}
-            label="Permanent"
-          />
-          <FormControlLabel
-            value="temporary"
-            control={<Radio />}
-            label="Kontrak"
-          />
-        </RadioGroup>
       </FormControl>
       <FormControl>
         <FormLabel className="text-gray-950" htmlFor="is_married">

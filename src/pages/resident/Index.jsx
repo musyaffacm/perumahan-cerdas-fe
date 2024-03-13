@@ -38,7 +38,6 @@ export default function Resident() {
     const formData = new FormData();
     formData.append("fullname", state.fullname);
     formData.append("identity_photo", state.identityPhoto);
-    formData.append("status", state.inhabitStatus);
     formData.append("phone_number", state.phoneNumber);
     formData.append("is_married", state.isMarried);
 
@@ -55,7 +54,6 @@ export default function Resident() {
     const formData = new FormData();
     formData.append("fullname", state.fullname);
     formData.append("identity_photo", state.identityPhoto);
-    formData.append("status", state.inhabitStatus);
     formData.append("phone_number", state.phoneNumber);
     formData.append("is_married", state.isMarried);
 
