@@ -5,18 +5,21 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import MonthSelect from "./components/MonthSelect";
 import CustomModal from "../../components/CustomModal";
-import PaymentForm from "./components/PaymentForm";
+import TranscForm from "./components/TranscForm";
 import TransactionGraphic from "./components/TransactionGraphic";
 import useFetch from "../../hooks/useFetch";
 import { API_URL, STATIC_MONTH } from "../../constant/global";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import PaymentInTable from "./components/PaymentInTable";
 import PaymentOutTable from "./components/PaymentOutTable";
-import { createTransaction } from "../../lib/payment";
+import { createPaymentType, createTransaction } from "../../lib/payment";
+import PaymentTypeTable from "./components/PaymentTypeTable";
+import PaymentTypeForm from "./components/PaymentTypeForm";
 
 export default function Payment() {
   const navigate = useNavigate();
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isAddTransc, setIsAddTransc] = useState(false);
+  const [isAddPayment, setIsAddPayment] = useState(false);
   const [loading, setLoading] = useState(false);
   const [month, setMonth] = useState(
     STATIC_MONTH.find((item) => item.id === 3)
@@ -61,6 +64,20 @@ export default function Payment() {
     setLoading(false);
   };
 
+  const handleCreatePaymentType = async (state) => {
+    setLoading(true);
+    // setReqError([]);
+    // e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("label", state.label);
+    formData.append("fee", state.fee);
+
+    const data = await createPaymentType(formData, () => navigate(0));
+
+    setLoading(false);
+  };
+
   if (
     transactionLoading ||
     yearlyTranscLoading ||
@@ -78,20 +95,24 @@ export default function Payment() {
   ) {
     return (
       <div className="space-y-8">
-        <div className="w-full text-center text-gray-950 font-bold text-5xl">
-          Pembayaran
+        <div className="w-full flex justify-between">
+          <Button
+            variant="contained"
+            size="large"
+            startIcon={<MdOutlineKeyboardBackspace />}
+            onClick={() => navigate("/home")}
+          >
+            Back
+          </Button>
+          <div className="w-full text-center text-gray-950 font-bold text-5xl">
+            Pembayaran
+          </div>
+          <div></div>
         </div>
         <TransactionGraphic data={yearlyTransc} />
-        <div className="w-full">
-          <div className="w-full flex justify-between mb-5">
-            <Button
-              variant="contained"
-              size="large"
-              startIcon={<MdOutlineKeyboardBackspace />}
-              onClick={() => navigate("/home")}
-            >
-              Back
-            </Button>
+
+        <div className="space-y-5 px-3">
+          <div className="w-full flex justify-end">
             <div className="flex gap-x-5 w-96">
               <MonthSelect
                 value={month}
@@ -101,9 +122,9 @@ export default function Payment() {
                 variant="contained"
                 size="large"
                 startIcon={<IoMdAdd />}
-                onClick={() => setIsOpenModal((prev) => true)}
+                onClick={() => setIsAddTransc((prev) => true)}
               >
-                Tambah Pembayaran
+                Buat Transaksi
               </Button>
             </div>
           </div>
@@ -112,12 +133,31 @@ export default function Payment() {
             <PaymentOutTable data={transaction?.data?.paymentOut} />
           </div>
         </div>
-        <CustomModal open={isOpenModal} onClose={() => setIsOpenModal(false)}>
-          <PaymentForm
+        <div className="space-y-5 px-3">
+          <div className="flex justify-end">
+            <Button
+              variant="contained"
+              size="large"
+              startIcon={<IoMdAdd />}
+              onClick={() => setIsAddPayment((prev) => true)}
+            >
+              Tambah Jenis Pembayaran
+            </Button>
+          </div>
+          <PaymentTypeTable data={paymentType?.data} />
+        </div>
+        <CustomModal open={isAddTransc} onClose={() => setIsAddTransc(false)}>
+          <TranscForm
             paymentTypeData={paymentType?.data}
             residentData={residentData?.data}
-            onCancel={() => setIsOpenModal(false)}
+            onCancel={() => setIsAddTransc(false)}
             onSubmit={(state) => handleCreateTransaction(state)}
+          />
+        </CustomModal>
+        <CustomModal open={isAddPayment} onClose={() => setIsAddPayment(false)}>
+          <PaymentTypeForm
+            onCancel={() => setIsAddPayment(false)}
+            onSubmit={(state) => handleCreatePaymentType(state)}
           />
         </CustomModal>
       </div>
