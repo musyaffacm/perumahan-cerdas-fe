@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { formatDate } from "../../../lib/helper";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,37 +29,38 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(id, residentName, paymentLabel) {
-  return {
-    id,
-    residentName,
-    paymentLabel,
-  };
-}
+const mappingData = (data) => {
+  return data.map((item) => ({
+    id: item.id,
+    residentName: item?.resident?.fullname || "-",
+    paymentType: item?.payment?.label || "-",
+    nominal: item?.payment?.fee || "-",
+    dueDate: item?.payment_date || "-",
+  }));
+};
 
-const SAMPLE_DATA = [
-  createData(1, "John Doe", "Satpam"),
-  createData(2, "John Doe", "Satpam"),
-  createData(3, "John Doe", "Satpam"),
-  createData(4, "John Doe", "Kebersihan"),
-  createData(5, "John Doe", "Kebersihan"),
-  createData(6, "John Doe", "Kebersihan"),
-];
-
-const PaymentTable = () => {
+const PaymentOutTable = ({ data }) => {
+  const mappedData = mappingData(data);
   return (
-    <>
+    <div className="space-y-3">
+      <div className="text-2xl font-semibold text-black w-full text-left">
+        Pengeluaran
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 1000 }} aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell align="center"> Id </StyledTableCell>
-              <StyledTableCell align="center"> Nama Lengkap </StyledTableCell>
+              <StyledTableCell align="center"> Nama Penghuni </StyledTableCell>
               <StyledTableCell align="center">Jenis Pembayaran</StyledTableCell>
+              <StyledTableCell align="center"> Nominal </StyledTableCell>
+              <StyledTableCell align="center">
+                Tanggal Jatuh Tempo
+              </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {SAMPLE_DATA.map((item, index) => (
+            {mappedData.map((item, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell align="center" component="th" scope="row">
                   {"PR-" + String(item.id).padStart(4, "0")}
@@ -67,15 +69,19 @@ const PaymentTable = () => {
                   {item.residentName}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {item.paymentLabel}
+                  {item.paymentType}
+                </StyledTableCell>
+                <StyledTableCell align="center">{item.nominal}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {formatDate(item.dueDate)}
                 </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </div>
   );
 };
 
-export default PaymentTable;
+export default PaymentOutTable;

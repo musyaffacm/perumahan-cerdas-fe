@@ -27,3 +27,14 @@ export const httpErrorHandler = (error, toArray = false) => {
 export const formatHouseId = (houseId) => {
   return "RC-" + String(houseId).padStart(4, "0");
 };
+
+export const formatDate = (date, month = "long") => {
+  if (!date) {
+    return "-";
+  }
+  return new Date(date).toLocaleDateString("id-id", {
+    year: "numeric",
+    month: month,
+    day: "numeric",
+  });
+};
