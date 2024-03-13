@@ -12,7 +12,6 @@ import { Button } from "@mui/material";
 import { IoMdEye } from "react-icons/io";
 import CustomModal from "../../../components/CustomModal";
 import { useState } from "react";
-import HouseForm from "./HouseForm";
 import ResidentHistoryTable from "./ResidentHistoryTable";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -60,7 +59,7 @@ const mappingData = (data) => {
   }));
 };
 
-const HouseTable = ({ data }) => {
+const HouseTable = ({ data, onClickEdit = () => {} }) => {
   const [isEdit, setIsEdit] = useState(null);
   const [isOpenHistory, setIsOpenHistory] = useState(false);
   const mappedData = mappingData(data);
@@ -94,7 +93,7 @@ const HouseTable = ({ data }) => {
                       variant="contained"
                       color="warning"
                       size="large"
-                      onClick={() => setIsEdit(true)}
+                      onClick={() => onClickEdit(item.id)}
                       startIcon={<MdModeEdit />}
                     >
                       Edit
@@ -115,9 +114,6 @@ const HouseTable = ({ data }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <CustomModal open={isEdit} onClose={() => setIsEdit(false)}>
-        <HouseForm onCancel={() => setIsEdit(false)} />
-      </CustomModal>
       <CustomModal open={isOpenHistory} onClose={() => setIsOpenHistory(false)}>
         <ResidentHistoryTable />
       </CustomModal>

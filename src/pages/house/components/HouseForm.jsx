@@ -7,31 +7,28 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-const createResidentData = (id, fullname) => {
-  return { id, fullname };
-};
-
-const createInhabitData = (id, label) => {
-  return { id, label };
-};
-
-const SAMPLE_DATA_RESIDENT = [
-  createResidentData(1, "John Doe 1"),
-  createResidentData(2, "John Doe 2"),
-  createResidentData(3, "John Doe 3"),
-  createResidentData(4, "John Doe 4"),
-  createResidentData(5, "John Doe 5"),
-];
-
-const SAMPLE_DATA_INHABIT_STATUS = [
-  createInhabitData(1, "Permanen"),
-  createInhabitData(2, "Kontrak"),
+const INHABIT_STATUS = [
+  {
+    value: "permanent",
+    label: "Permanen",
+  },
+  {
+    value: "temporary",
+    label: "Kontrak",
+  },
 ];
 
 const HouseForm = (props) => {
-  const { onCancel = () => {}, onSubmit = () => {} } = props;
-  const [resident, setResident] = useState(null);
-  const [inhabitStatus, setInhabitStatus] = useState(null);
+  const {
+    residentData,
+    loading = false,
+    onCancel = () => {},
+    onSubmit = () => {},
+  } = props;
+  const [state, setState] = useState({
+    resident: null,
+    inhabitStatus: null,
+  });
   return (
     <>
       <div className="text-xl font-semibold text-gray-800 mb-10 text-center">
@@ -43,11 +40,13 @@ const HouseForm = (props) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={resident}
+          value={state.resident}
           label="Pilih penghuni"
-          onChange={(e) => setResident(e.target.value)}
+          onChange={(e) =>
+            setState((prev) => ({ ...prev, resident: e.target.value }))
+          }
         >
-          {SAMPLE_DATA_RESIDENT.map((item) => (
+          {residentData.map((item) => (
             <MenuItem value={item}> {item.fullname} </MenuItem>
           ))}
         </Select>
@@ -57,11 +56,13 @@ const HouseForm = (props) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={inhabitStatus}
+          value={state.inhabitStatus}
           label="Pilih penghuni"
-          onChange={(e) => setInhabitStatus(e.target.value)}
+          onChange={(e) =>
+            setState((prev) => ({ ...prev, inhabitStatus: e.target.value }))
+          }
         >
-          {SAMPLE_DATA_INHABIT_STATUS.map((item) => (
+          {INHABIT_STATUS.map((item) => (
             <MenuItem value={item}> {item.label} </MenuItem>
           ))}
         </Select>
@@ -71,8 +72,13 @@ const HouseForm = (props) => {
         <Button variant="contained" size="large" onClick={onCancel}>
           Batal
         </Button>
-        <Button variant="contained" size="large" onClick={onSubmit}>
-          Simpan
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => onSubmit(state)}
+          disabled={loading}
+        >
+          {loading ? "Loading" : "Simpan"}
         </Button>
       </div>
     </>

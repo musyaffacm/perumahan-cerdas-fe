@@ -7,12 +7,14 @@ import HouseTable from "./components/HouseTable";
 import useFetch from "../../hooks/useFetch";
 import { API_URL } from "../../constant/global";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import { addHouse } from "../../lib/house";
+import { addHouse, updateHouseResident } from "../../lib/house";
+import CustomModal from "../../components/CustomModal";
+import HouseForm from "./components/HouseForm";
 
 export default function House() {
   const navigate = useNavigate();
-  const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [idEdit, setIdEdit] = useState(null);
 
   const {
     data: houseData,
@@ -20,6 +22,12 @@ export default function House() {
     error: houseError,
     revalidate: houseRevalidate,
   } = useFetch(`${API_URL}/house`);
+
+  const {
+    data: residentData,
+    loading: residentLoading,
+    error: residentError,
+  } = useFetch(`${API_URL}/resident`);
 
   const handleCreate = async (state) => {
     setLoading(true);
@@ -29,11 +37,27 @@ export default function House() {
     setLoading(false);
   };
 
-  if (houseLoading) {
+  const handleUpdate = async (state) => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("house_id", idEdit);
+    formData.append("resident_id", state.resident.id);
+    formData.append("inhabit_status", state.inhabitStatus.value);
+
+    const onSuccess = () => {
+      setIdEdit(null);
+      houseRevalidate();
+    };
+
+    const data = await updateHouseResident(formData, () => onSuccess());
+    setLoading(false);
+  };
+
+  if (houseLoading || residentLoading) {
     return <LoadingSpinner />;
   }
 
-  if (houseData?.data) {
+  if (houseData?.data && residentData?.data) {
     return (
       <div className="space-y-8">
         <div className="w-full text-center text-gray-950 font-bold text-5xl">
@@ -58,8 +82,19 @@ export default function House() {
               Tambah Rumah
             </Button>
           </div>
-          <HouseTable data={houseData?.data} />
+          <HouseTable
+            data={houseData?.data}
+            onClickEdit={(houseId) => setIdEdit(houseId)}
+          />
         </div>
+        <CustomModal open={idEdit !== null} onClose={() => setIdEdit(null)}>
+          <HouseForm
+            onCancel={() => setIdEdit(null)}
+            residentData={residentData?.data}
+            onSubmit={(state) => handleUpdate(state)}
+            loading={loading}
+          />
+        </CustomModal>
       </div>
     );
   }

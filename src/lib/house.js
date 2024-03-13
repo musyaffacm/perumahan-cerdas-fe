@@ -23,15 +23,11 @@ export const addHouse = async (onSuccess = () => {}) => {
   return data;
 };
 
-export const updateHouse = async (
-  residentId,
-  formData,
-  onSuccess = () => {}
-) => {
+export const updateHouseResident = async (formData, onSuccess = () => {}) => {
   const data = { error: {} };
 
   await axios
-    .post(`${API_URL}/resident/${residentId}?_method=PUT`, formData, {})
+    .post(`${API_URL}/house/resident`, formData, {})
     .then((res) => {
       if (res.data && res.data.status === "success") {
         data.error = [];
