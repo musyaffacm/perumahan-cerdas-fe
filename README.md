@@ -1,8 +1,21 @@
-# React + Vite
+# INSTALASI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ 1. Clone Repository
+    ```bash
+        git clone https://github.com/musyaffacm/perumahan-cerdas-fe.git
+    ```
 
-Currently, two official plugins are available:
+ 2. Masuk ke Direktori Proyek
+    ```bash
+        cd perumahan-cerdas-fe
+    ```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+ 3. Instal Dependensi
+    ```bash
+        yarn
+    ```
+
+ 4. Salin Berkas .env
+    ```bash
+        yarn dev
+    ```
