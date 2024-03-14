@@ -23,7 +23,7 @@ const TranscForm = (props) => {
   return (
     <>
       <div className="text-xl font-semibold text-gray-800 mb-10 text-center">
-        Form Data Rumah
+        Form Data Transaksi Pembayaran
       </div>
 
       <FormControl fullWidth>
