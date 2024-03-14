@@ -110,7 +110,19 @@ export default function Payment() {
           <div></div>
         </div>
         <TransactionGraphic data={yearlyTransc} />
-
+        <div className="space-y-5 px-3">
+          <div className="flex justify-end">
+            <Button
+              variant="contained"
+              size="large"
+              startIcon={<IoMdAdd />}
+              onClick={() => setIsAddPayment((prev) => true)}
+            >
+              Tambah Jenis Pembayaran
+            </Button>
+          </div>
+          <PaymentTypeTable data={paymentType?.data} />
+        </div>
         <div className="space-y-5 px-3">
           <div className="w-full flex justify-end">
             <div className="flex gap-x-5 w-96">
@@ -132,19 +144,6 @@ export default function Payment() {
             <PaymentInTable data={transaction?.data?.paymentIn} />
             <PaymentOutTable data={transaction?.data?.paymentOut} />
           </div>
-        </div>
-        <div className="space-y-5 px-3">
-          <div className="flex justify-end">
-            <Button
-              variant="contained"
-              size="large"
-              startIcon={<IoMdAdd />}
-              onClick={() => setIsAddPayment((prev) => true)}
-            >
-              Tambah Jenis Pembayaran
-            </Button>
-          </div>
-          <PaymentTypeTable data={paymentType?.data} />
         </div>
         <CustomModal open={isAddTransc} onClose={() => setIsAddTransc(false)}>
           <TranscForm

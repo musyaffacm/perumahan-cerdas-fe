@@ -29,23 +29,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(id, residentName, inhabitStatus) {
-  return {
-    id,
-    residentName,
-    inhabitStatus,
-  };
-}
-
-const SAMPLE_DATA = [
-  createData(1, "John Doe", "Permanent"),
-  createData(2, "John Doe", "Permanent"),
-  createData(3, "John Doe", "Permanent"),
-  createData(4, "John Doe", "Permanent"),
-  createData(5, "John Doe", "Permanent"),
-  createData(6, "John Doe", "Permanent"),
-];
-
 const mappingData = (data) => {
   return data.map((item) => ({
     id: item.id,
@@ -59,7 +42,7 @@ const ResidentHistoryTable = ({ residentHistory }) => {
   return (
     <>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 1000 }} aria-label="customized table">
+        <Table sx={{ minWidth: 500 }} aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell align="center"> Id </StyledTableCell>
@@ -71,7 +54,7 @@ const ResidentHistoryTable = ({ residentHistory }) => {
             {mappedData.map((item, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell align="center" component="th" scope="row">
-                  {formatHouseId(item.id)}
+                  {"RH-" + String(item.id).padStart(4, "0")}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {item.residentName}

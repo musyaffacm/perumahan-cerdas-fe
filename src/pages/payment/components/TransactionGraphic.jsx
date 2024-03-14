@@ -9,44 +9,6 @@ import {
 } from "recharts";
 import { STATIC_MONTH } from "../../../constant/global";
 
-const SAMPLE_DATA = [
-  {
-    name: "Januari",
-    income: 4000,
-    outcome: 2400,
-  },
-  {
-    name: "Febuari",
-    income: 3000,
-    outcome: 1398,
-  },
-  {
-    name: "Maret",
-    income: 2000,
-    outcome: 9800,
-  },
-  {
-    name: "April",
-    income: 2780,
-    outcome: 3908,
-  },
-  {
-    name: "Mei",
-    income: 1890,
-    outcome: 4800,
-  },
-  {
-    name: "Juni",
-    income: 2390,
-    outcome: 3800,
-  },
-  {
-    name: "Juli",
-    income: 3490,
-    outcome: 4300,
-  },
-];
-
 const mappingData = (data) => {
   return STATIC_MONTH.map((month) => {
     const incomeTotal = data.paymentIn
