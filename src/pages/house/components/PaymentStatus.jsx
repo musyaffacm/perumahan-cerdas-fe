@@ -47,7 +47,7 @@ const PaymentStatus = ({ data }) => {
         Daftar Iuran
       </div>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 1000 }} aria-label="customized table">
+        <Table sx={{ minWidth: 500 }} aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell align="center"> Bulan </StyledTableCell>
