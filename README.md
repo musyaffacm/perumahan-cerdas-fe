@@ -1,5 +1,5 @@
 # Screenshot Rangkuman Fitur
-    [URL Screenshot Rangkuman Fitur](https://docs.google.com/document/d/1UFww-dOd_unf7IJoO6AXkWr835wsUpOGcMKNDLr_cew/edit#heading=h.5iwnalfmmip9)
+[URL Screenshot Rangkuman Fitur](https://docs.google.com/document/d/1UFww-dOd_unf7IJoO6AXkWr835wsUpOGcMKNDLr_cew/edit#heading=h.5iwnalfmmip9)
 
 # INSTALASI
 
